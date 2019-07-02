@@ -1,0 +1,42 @@
+#map {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.cabanPrcntInfo {
+    position: relative;
+    padding: 10px;
+    font: 14px/16px Geneva;
+    color: #000000;
+    background: #ffffff;
+    opacity: 1;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 10px;
+}
+
+.cabanPrcntInfo h4 {
+    margin: 8px;
+    color: #000000;
+}
+
+.legend {
+    position: relative;
+    top: 85%;
+    right: 2%;
+    z-index: 1000;
+    padding: 5px;
+    font: 12px Geneva;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    line-height: 20px;
+    color: #555;
+}
+
+.legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+}
