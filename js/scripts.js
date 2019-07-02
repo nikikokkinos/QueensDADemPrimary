@@ -74,10 +74,10 @@ var CabanPrcntLayer = L.geoJSON(CabanPrcnt,
 
   // method that we will use to update the control based on feature properties passed
   cabanPrcntInfo.update = function (props) {
-    this._div.innerHTML = '<h4>Percentage of Vote for Tiffany Caban</h4>' +  (props ?
+    this._div.innerHTML = '<h3>Percentage of Vote for Tiffany Caban</h3>' + (props ?
         '<b>' + 'Election District' + ' ' + props.ElectDist + '</b><br />' + props.Refactored_Caban_VotePrcnt
 				+ '%'
-        : 'Hover over an Assembly District');
+        : 'Hover over an Election District');
 };
 
   cabanPrcntInfo.addTo(map);
