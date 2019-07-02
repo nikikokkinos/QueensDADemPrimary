@@ -53,9 +53,14 @@ var CabanPrcntLayer = L.geoJSON(CabanPrcnt,
   			cabanPrcntInfo.update();
   	}
 
+    function zoomToFeature(m) {
+      map.fitBounds(m.target.getBounds());
+    }
+
     layer.on({
         mouseover: highlight,
         mouseout: resetHighlight,
+        click: zoomToFeature,
     });
   }
 
