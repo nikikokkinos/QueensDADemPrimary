@@ -1,17 +1,24 @@
-var map = L.map('map').setView([40.674649,-73.844261], 11);
+var map = L.map('map', {
+	minZoom: 9,
+	maxZoom: 15,
+}).setView([40.674649,-73.844261], 11);
 
-L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
 	attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
 // establishing external geoJSON file & giving it two arguments for style and onEachFeature
 var CabanPrcntLayer = L.geoJSON(CabanPrcnt,
 	{
-		style: style,
+		style: cabanStyle,
 		onEachFeature: onEachFeature,
 	}).addTo(map)
 
-  function fillColor(Refactored_Caban_VotePrcnt) {
+// var ADs = L.geoJSON(assemblyDistricts, {
+// 		style:
+// 			}).addTo(map)
+
+  function cabanfillColor(Refactored_Caban_VotePrcnt) {
       return Refactored_Caban_VotePrcnt >= 90 	? '#54278f' :
   					 Refactored_Caban_VotePrcnt >= 70 	? '#756bb1' :
              Refactored_Caban_VotePrcnt >= 50 	? '#9e9ac8' :
@@ -21,14 +28,12 @@ var CabanPrcntLayer = L.geoJSON(CabanPrcnt,
   					 																				'black' ;
   }
 
-  function style(feature) {
+  function cabanStyle(feature) {
       return {
-          fillColor: fillColor(feature.properties.Refactored_Caban_VotePrcnt),
-          weight: 0,
-          opacity: 1,
-          color: 'black',
-          dashArray: '2',
-          fillOpacity: 1,
+          fillColor: cabanfillColor(feature.properties.Refactored_Caban_VotePrcnt),
+          weight: .5,
+          color: 'white',
+          fillOpacity: .8,
       };
   }
 
@@ -93,7 +98,7 @@ var CabanPrcntLayer = L.geoJSON(CabanPrcnt,
       // loop through our density intervals and generate a label with a colored square for each interval
       for (var i = 0; i < grades.length; i++) {
           div.innerHTML +=
-              '<i style="background:' + fillColor(grades[i] + 1) + '"></i> ' +
+              '<i style="background:' + cabanfillColor(grades[i] + 1) + '"></i> ' +
               grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
       }
 
