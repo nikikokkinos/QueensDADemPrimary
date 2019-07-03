@@ -3,9 +3,30 @@ var map = L.map('map', {
 	maxZoom: 15,
 }).setView([40.674649,-73.844261], 11);
 
-L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
+L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
 	attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
+
+var ADs = L.geoJSON(assemblyDistricts, {
+	onEachFeature: adOnEachFeature,
+	}).setStyle({
+		color: '#a8e9ff',
+		weight: 2,
+		dashArray: 2,
+		fillColor: '#a8e9ff',
+		fillOpacity: .01,
+	});
+
+	function adOnEachFeature(feature, layer) {
+
+		var assemblyWebsite = feature.properties.QnsPubAdvocateResults_URL
+		layer.bindPopup('<h4>Assembly District</h4>' + ' ' + feature.properties.AssemDist + ' ' +
+		'<a href="' + assemblyWebsite + '"  target="_blank" >Visit Website</a>' );
+
+		if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+				layer.bringToFront();
+		}
+	};
 
 // establishing external geoJSON file & giving it two arguments for style and onEachFeature
 var CabanPrcntLayer = L.geoJSON(CabanPrcnt,
@@ -13,10 +34,6 @@ var CabanPrcntLayer = L.geoJSON(CabanPrcnt,
 		style: cabanStyle,
 		onEachFeature: onEachFeature,
 	}).addTo(map)
-
-// var ADs = L.geoJSON(assemblyDistricts, {
-// 		style:
-// 			}).addTo(map)
 
   function cabanfillColor(Refactored_Caban_VotePrcnt) {
       return Refactored_Caban_VotePrcnt >= 90 	? '#54278f' :
@@ -30,10 +47,10 @@ var CabanPrcntLayer = L.geoJSON(CabanPrcnt,
 
   function cabanStyle(feature) {
       return {
+					color: 'black',
+					weight: .2,
           fillColor: cabanfillColor(feature.properties.Refactored_Caban_VotePrcnt),
-          weight: .5,
-          color: 'white',
-          fillOpacity: .8,
+          fillOpacity: 1,
       };
   }
 
@@ -58,14 +75,14 @@ var CabanPrcntLayer = L.geoJSON(CabanPrcnt,
   			cabanPrcntInfo.update();
   	}
 
-    function zoomToFeature(m) {
-      map.fitBounds(m.target.getBounds());
-    }
+    // function zoomToFeature(m) {
+    //   map.fitBounds(m.target.getBounds());
+    // }
 
     layer.on({
         mouseover: highlight,
         mouseout: resetHighlight,
-        click: zoomToFeature,
+        // click: zoomToFeature,
     });
   }
 
@@ -119,3 +136,13 @@ var CabanPrcntLayer = L.geoJSON(CabanPrcnt,
   				results.addLayer(L.marker(data.results[i].latlng).bindPopup('Address:' + ' ' + data.results[i].text));
   		}
   });
+
+	var baseMaps = {
+		    "Percentage of Vote Won by Tiffany Caban": CabanPrcntLayer,
+			};
+
+	var overlayMaps = {
+		    "Assembly Districts": ADs,
+		};
+
+	L.control.layers(baseMaps, overlayMaps).addTo(map);
